@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Color from 'color';
 import Animate from '../animate';
 import Icon from '../icon';
-import { obj, func, support, KEYCODE } from '../util';
+import { obj, func, support, KEYCODE, log } from '../util';
 import zhCN from '../locale/zh-cn';
 import ConfigProvider from '../config-provider';
 
 const { noop, bindCtx } = func;
+
+const PRESET_COLORS = {
+    success: '#41a716',
+    warning: '#eb7e10',
+    info: '#2e7de0',
+    error: '#e72b00',
+    help: '#01a79a',
+};
+const colorHexReg = /^#([a-f0-9]{3,4}|[a-f0-9]{4}(?:[a-f0-9]{2}){1,2})\b$/;
 
 /**
  * Tag
@@ -28,12 +38,31 @@ class Tag extends Component {
          */
         size: PropTypes.oneOf(['small', 'medium', 'large']),
 
-        closable: PropTypes.bool,
+        /**
+         * 标签颜色
+         */
+        color: function(props, propName, componentName) {
+            if (
+                props[propName] &&
+                (typeof props[propName] !== 'string' ||
+                    (Object.keys(PRESET_COLORS).indexOf(props[propName]) < 0 &&
+                        !colorHexReg.test(props[propName])))
+            ) {
+                return new Error(
+                    `Invalid prop \`${propName}\` of value \`${
+                        props[propName]
+                    }\` supplied to \`${componentName}\`, expected [${Object.keys(
+                        PRESET_COLORS
+                    )}] or a hex color string`
+                );
+            }
+        },
         /**
          * 是否开启动效
          */
         animation: PropTypes.bool,
         closeArea: PropTypes.oneOf(['tag', 'tail']),
+        closable: PropTypes.bool,
         onClose: PropTypes.func,
         afterClose: PropTypes.func,
         /**
@@ -184,6 +213,43 @@ class Tag extends Component {
             </span>
         );
     }
+
+    getStyle() {
+        const { type, color, closeable } = this.props;
+        const tagColor = PRESET_COLORS[color] || color;
+        let tagStyle = null;
+        let tagTextStyle = null;
+
+        if (!closeable && color) {
+            try {
+                tagStyle = {
+                    backgroundColor:
+                        type === 'primary'
+                            ? tagColor
+                            : Color(tagColor)
+                                  .mix(Color('white'), 0.7)
+                                  .rgb()
+                                  .string(),
+                    borderColor: tagColor,
+                };
+                tagTextStyle = {
+                    color: type === 'primary' ? '#fff' : tagColor,
+                };
+            } catch (e) {
+                log.warning(
+                    `Invalid prop \`color\` of value \`${color}\` supplied to \`Tag\`, expected [${Object.keys(
+                        PRESET_COLORS
+                    )}] or css color string`
+                );
+            }
+        }
+
+        return {
+            tag: tagStyle,
+            text: tagTextStyle,
+        };
+    }
+
     render() {
         const {
             prefix,
@@ -214,6 +280,8 @@ class Tag extends Component {
             },
             className
         );
+        const colorStyle = this.getStyle();
+
         // close btn
         const tailNode = this.renderTailNode();
         // tag node
@@ -228,9 +296,12 @@ class Tag extends Component {
                 disabled={disabled}
                 dir={rtl ? 'rtl' : undefined}
                 ref={n => (this.tagNode = n)}
+                style={colorStyle.tag}
                 {...others}
             >
-                <span className={`${prefix}tag-body`}>{children}</span>
+                <span className={`${prefix}tag-body`} style={colorStyle.text}>
+                    {children}
+                </span>
                 {tailNode}
             </div>
         );

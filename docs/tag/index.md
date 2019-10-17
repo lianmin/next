@@ -25,35 +25,36 @@
 
 ### Tag
 
-| 参数          | 说明                                                                                  | 类型       | 默认值       |
-| ----------- | ----------------------------------------------------------------------------------- | -------- | --------- |
+| 参数        | 说明                                                                                                   | 类型     | 默认值    |
+| ----------- | ------------------------------------------------------------------------------------------------------ | -------- | --------- |
 | size        | 标签的尺寸（large 尺寸为兼容表单场景 large = medium）<br><br>**可选值**:<br>'small', 'medium', 'large' | Enum     | 'medium'  |
-| type        | 标签的类型<br><br>**可选值**:<br>'normal', 'primary'                                        | Enum     | 'normal'  |
-| animation   | 是否开启动效                                                                              | Boolean  | false     |
-| afterAppear | 标签出现动画结束后执行的回调<br><br>**签名**:<br>Function() => void                                 | Function | func.noop |
-| onClick     | 点击回调<br><br>**签名**:<br>Function() => void                                           | Function | func.noop |
+| type        | 标签的类型<br><br>**可选值**:<br>'normal', 'primary'                                                   | Enum     | 'normal'  |
+| animation   | 是否开启动效                                                                                           | Boolean  | false     |
+| color       | 标签颜色<br><br>**可选值**:<br> `success,error,warning,info,help` 或 `HEX` 颜色值                      | String   |           |
+| afterAppear | 标签出现动画结束后执行的回调<br><br>**签名**:<br>Function() => void                                    | Function | func.noop |
+| onClick     | 点击回调<br><br>**签名**:<br>Function() => void                                                        | Function | func.noop |
 
 ### Tag.Closeable
 
-| 参数         | 说明                                                                                                                                                                           | 类型       | 默认值 |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --- |
-| closeArea  | closeable 标签的 onClose 响应区域, tag: 标签体, tail(默认): 关闭按钮<br><br>**可选值**:<br>'tag', 'tail'                                                                                        | Enum     | -   |
-| size       | 标签的尺寸（large 尺寸为兼容表单场景 large = medium）<br><br>**可选值**:<br>'small', 'medium', 'large'                                                                                          | Enum     | -   |
-| onClose    | 点击关闭按钮时的回调<br><br>**签名**:<br>Function(from: String) => Boolean<br>**参数**:<br>_from_: {String} 事件来源, tag: 标签体点击, tail: 关闭按钮点击<br>**返回值**:<br>{Boolean} true则关闭, false阻止关闭<br> | Function | -   |
-| afterClose | 标签关闭后执行的回调<br><br>**签名**:<br>Function() => void                                                                                                                              | Function | -   |
-| onClick    | 点击回调<br><br>**签名**:<br>Function() => void                                                                                                                                    | Function | -   |
+| 参数       | 说明                                                                                                                                                                                                                | 类型     | 默认值 |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------ |
+| closeArea  | closeable 标签的 onClose 响应区域, tag: 标签体, tail(默认): 关闭按钮<br><br>**可选值**:<br>'tag', 'tail'                                                                                                            | Enum     | -      |
+| size       | 标签的尺寸（large 尺寸为兼容表单场景 large = medium）<br><br>**可选值**:<br>'small', 'medium', 'large'                                                                                                              | Enum     | -      |
+| onClose    | 点击关闭按钮时的回调<br><br>**签名**:<br>Function(from: String) => Boolean<br>**参数**:<br>_from_: {String} 事件来源, tag: 标签体点击, tail: 关闭按钮点击<br>**返回值**:<br>{Boolean} true则关闭, false阻止关闭<br> | Function | -      |
+| afterClose | 标签关闭后执行的回调<br><br>**签名**:<br>Function() => void                                                                                                                                                         | Function | -      |
+| onClick    | 点击回调<br><br>**签名**:<br>Function() => void                                                                                                                                                                     | Function | -      |
 
 ### Tag.Selectable
 
-| 参数             | 说明                                                                                                                                           | 类型       | 默认值       |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------- |
-| checked        | 标签是否被选中，受控用法<br>tag checked or not, a controlled way                                                                                         | Boolean  | -         |
-| defaultChecked | 标签是否默认被选中，非受控用法<br>tag checked or not by default, a uncontrolled way                                                                         | Boolean  | -         |
+| 参数           | 说明                                                                                                                                                                 | 类型     | 默认值    |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | --------- |
+| checked        | 标签是否被选中，受控用法<br>tag checked or not, a controlled way                                                                                                     | Boolean  | -         |
+| defaultChecked | 标签是否默认被选中，非受控用法<br>tag checked or not by default, a uncontrolled way                                                                                  | Boolean  | -         |
 | onChange       | 选中状态变化时触发的事件<br><br>**签名**:<br>Function(checked: Boolean, e: Event) => void<br>**参数**:<br>_checked_: {Boolean} 是否选中<br>_e_: {Event} Dom 事件对象 | Function | func.noop |
-| disabled       | 标签是否被禁用                                                                                                                                      | Boolean  | -         |
+| disabled       | 标签是否被禁用                                                                                                                                                       | Boolean  | -         |
 
 ## ARIA and KeyBoard
 
-| 按键    | 说明           |
-| :---- | :----------- |
+| 按键  | 说明                    |
+| :---- | :---------------------- |
 | SPACE | 选择,取消或删除当前标签 |
